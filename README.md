@@ -3,7 +3,7 @@
 
 ## 相关特性：
 
-#### version 1.0.2：
+### version 1.0.2：
 定义了路由类router，Engine中包含一个router，路由映射则移交至router类来管理
 ```go
 type router struct {
@@ -33,7 +33,7 @@ func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
 }
 ```
 
-#### version 1.0.1：
+### version 1.0.1：
 定义了context上下文内容，在context中包含了一次HTTP交互（请求与响应）的全部信息。
 ```go
 type Context struct {
@@ -45,7 +45,7 @@ type Context struct {
 }
 ```
 
-#### version 1.0.0：
+### version 1.0.0：
 静态路由，一切交由Engin处理：
 ```go
 type HandlerFunc func(http.ResponseWriter, *http.Request)
