@@ -12,17 +12,15 @@ type H map[string]interface{}
 //包含：
 //		Req 来自客户端的http请求
 //		Writer 服务端的响应输出流
-//		Path 路由匹配
+//		Path 路由url
 //		Method 请求方法
 //		StatusCode 状态码
 type Context struct {
-	Req    *http.Request
-	Writer http.ResponseWriter
-
-	Path   string
-	Method string
-
-	StatusCode int
+	Req        *http.Request       //自客户端的http请求
+	Writer     http.ResponseWriter //服务端的响应输出流
+	Path       string              //路由url
+	Method     string              //请求方法
+	StatusCode int                 //状态码
 }
 
 func newContext(w http.ResponseWriter, req *http.Request) *Context {
