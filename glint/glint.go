@@ -1,1 +1,5 @@
 package glint
+
+func main()  {
+	
+}
