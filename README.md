@@ -4,6 +4,7 @@
 ## 相关特性：
 #### version 1.0.1：
 定义了context上下文内容，在context中包含了一次HTTP交互（请求与响应）的全部信息。
+```go
 type Context struct {
 	Req        *http.Request       //自客户端的http请求
 	Writer     http.ResponseWriter //服务端的响应输出流
@@ -11,6 +12,7 @@ type Context struct {
 	Method     string              //请求方法
 	StatusCode int                 //状态码
 }
+```
 
 #### version 1.0.0：
 静态路由，一切交由Engin处理：
