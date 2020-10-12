@@ -1,36 +1,31 @@
 package glint
 
 import (
-	"fmt"
 	"net/http"
 )
 
-type HandlerFunc func(http.ResponseWriter, *http.Request)
+type HandlerFunc func(c *Context)
 
-//http服务端的处理引擎，内置一个路由表，根据路由表做出相应的处理动作
+//http服务端的处理引擎，内置一个路由表router
+//由router来管理路由映射
 type Engine struct {
-	router map[string]HandlerFunc
+	router *router
 }
 
 //使得Engine实现Handler接口，可以注册到http服务端
 func (engine *Engine) ServeHTTP(w http.ResponseWriter, req *http.Request) {
-	key := req.Method + "-" + req.URL.Path
-	if handlerFunc, ok := engine.router[key]; ok {
-		handlerFunc(w, req)
-	} else {
-		fmt.Fprintf(w, "404 NOT FOUND: %s\n", req.URL)
-	}
+	c := newContext(w, req)
+	engine.router.handle(c)
 }
 
 func New() *Engine {
 	return &Engine{
-		router: make(map[string]HandlerFunc),
+		router: newRouter(),
 	}
 }
 
 func (engine *Engine) addRoute(method string, pattern string, handler HandlerFunc) {
-	key := method + "-" + pattern
-	engine.router[key] = handler
+	engine.router.addRoute(method, pattern, handler)
 }
 
 //get请求的路由与处理函数
@@ -38,7 +33,7 @@ func (engine *Engine) GET(pattern string, handler HandlerFunc) {
 	engine.addRoute("GET", pattern, handler)
 }
 
-//注册主主请求的路由与处理函数
+//post请求的路由与处理函数
 func (engine *Engine) POST(pattern string, handler HandlerFunc) {
 	engine.addRoute("POST", pattern, handler)
 }
