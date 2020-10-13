@@ -16,11 +16,12 @@ type H map[string]interface{}
 //		Method 请求方法
 //		StatusCode 状态码
 type Context struct {
-	Req        *http.Request       //自客户端的http请求
-	Writer     http.ResponseWriter //服务端的响应输出流
-	Path       string              //路由url
-	Method     string              //请求方法
-	StatusCode int                 //状态码
+	Req           *http.Request       //自客户端的http请求
+	Writer        http.ResponseWriter //服务端的响应输出流
+	Path          string              //路由url
+	Method        string              //请求方法
+	StatusCode    int                 //状态码
+	RouteParamMap map[string]string   //通配符参数值的映射
 }
 
 func newContext(w http.ResponseWriter, req *http.Request) *Context {
@@ -30,6 +31,12 @@ func newContext(w http.ResponseWriter, req *http.Request) *Context {
 		Path:   req.URL.Path,
 		Method: req.Method,
 	}
+}
+
+//获取通配符对应的参数值
+func (c *Context) GetRouteParam(key string) string {
+	value, _ := c.RouteParamMap[key]
+	return value
 }
 
 //获取post表单中key对应的value
