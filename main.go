@@ -6,28 +6,33 @@ import (
 )
 
 func main() {
-	r := glint.New()
-	r.GET("/", func(c *glint.Context) {
-		c.HTML(http.StatusOK, "<h1>Hello Gee</h1>")
+	myEngine := glint.GetSingleEngine()
+	myEngine.GET("/index", func(c *glint.Context) {
+		c.HTML(http.StatusOK, "<h1>Index Page</h1>")
 	})
 
-	r.GET("/hello", func(c *glint.Context) {
-		// expect /hello?name=geektutu
-		c.String(http.StatusOK, "hello %s, you're at %s\n", c.Query("name"), c.Path)
-	})
+	v1 := glint.NewGroup("/v1")
+	{
+		v1.GET("/", func(c *glint.Context) {
+			c.HTML(http.StatusOK, "<h1>Hello Glint</h1>")
+		})
+		v1.GET("/hello", func(c *glint.Context) {
+			c.String(http.StatusOK, "hello %s, this is %s\n", c.Query("name"), c.Path)
+		})
+	}
+	v2 := glint.NewGroup("/v2")
+	{
+		v2.GET("/hello/:name", func(c *glint.Context) {
+			c.String(http.StatusOK, "hello %s, this is %s\n", c.GetRouteParam("name"), c.Path)
+		})
+		v2.POST("/login", func(c *glint.Context) {
+			c.JSON(http.StatusOK, glint.H{
+				"username": c.PostForm("username"),
+				"password": c.PostForm("password"),
+			})
+		})
 
-	r.GET("/hello/:name", func(c *glint.Context) {
-		// expect /hello/geektutu
-		c.String(http.StatusOK, "hello %s, you're at %s\n", c.GetRouteParam("name"), c.Path)
-	})
+	}
 
-	//r.GET("/assets/*filepath", func(c *glint.Context) {
-	//	c.JSON(http.StatusOK, glint.H{"filepath": c.GetRouteParam("filepath")})
-	//})
-
-	r.GET("/assets/:name/*filepath", func(c *glint.Context) {
-		c.JSON(http.StatusOK, glint.H{"name": c.GetRouteParam("name"), "filepath": c.GetRouteParam("filepath")})
-	})
-
-	r.Run(":9999")
+	myEngine.Run(":9999")
 }
