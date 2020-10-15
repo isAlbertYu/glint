@@ -44,9 +44,9 @@ func parsePattern(url string) []string {
 //向trie树中插入url
 //并向handlers中添加路由映射
 func (r *router) addRoute(method string, url string, handler HandlerFunc) {
-	parts := parsePattern(url)
+	urlParts := parsePattern(url)
 	var key string
-	if len(parts) == 0 {
+	if len(urlParts) == 0 {
 		key = method + "-" + ""
 	} else {
 		key = method + "-" + url
@@ -54,7 +54,7 @@ func (r *router) addRoute(method string, url string, handler HandlerFunc) {
 	if _, ok := r.tries[method]; !ok {
 		r.tries[method] = trie.NewTrie()
 	}
-	r.tries[method].Insert(parts)
+	r.tries[method].Insert(urlParts)
 	r.handlers[key] = handler
 }
 
