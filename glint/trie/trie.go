@@ -51,11 +51,12 @@ func (trie *Trie) Search(parts []string) *TrieNode {
 		if child == nil {
 			return nil
 		}
-		//已到达待匹配的url的最后一层 且 也到达了trie树的叶子节点
+		//已到达待匹配的url的最后一层 且 也到达了trie树的叶子节点, 则存在匹配
 		if i == len(parts)-1 && len(child.children)==0{
 			return child
 		}
 
+		//匹配到trie树中的*通配符
 		if child.curNodeVal[0] == '*' {
 			return child
 		}
