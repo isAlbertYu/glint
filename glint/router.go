@@ -49,6 +49,7 @@ func (r *router) addRoute(method string, url string, handler HandlerFunc) {
 	if len(urlParts) == 0 {
 		key = method + "-" + ""
 	} else {
+		url = strings.TrimRight(url, "/")//先去除url最后的斜杠，再加入路由映射
 		key = method + "-" + url
 	}
 	if _, ok := r.tries[method]; !ok {
