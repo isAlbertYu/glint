@@ -40,6 +40,7 @@ func (c *Context) GetRouteParam(key string) string {
 }
 
 //获取post表单中key对应的value
+//注意：request的PostForm字段只有在调用ParseForm后才有效，而FormValue方法内部调用了ParseForm
 func (c *Context) PostForm(key string) string {
 	return c.Req.FormValue(key)
 }
