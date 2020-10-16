@@ -3,6 +3,34 @@
 
 ## 相关特性：
 
+### version 1.0.3：
+定义了trie树，支持动态路由
+```go
+type Trie struct {
+	root *TrieNode
+}
+```
+使用通配符"*"与":"匹配两种动态路由，如：
+ - 1.对于已注册于trie树中的url：
+```
+/golang/:name
+```
+若请求的url为:
+ ```
+ /golang/albert
+ ```
+则name将被赋值为albert
+
+ - 2.对于已注册于trie树中的url：
+```
+/golang/*filepath
+```
+若请求的url为:
+ ```
+ /golang/res/photo/albert.jpg
+ ```
+则filepath将被赋值为res/photo/albert.jpg
+
 ### version 1.0.2：
 定义了路由类router，Engine中包含一个router，路由映射则移交至router类来管理
 ```go
