@@ -45,7 +45,7 @@ func (engine *engine) POST(pattern string, handler HandlerFunc) {
 }
 
 func (engine *engine) Run(addr string) error {
-	log.Println("golint start running...")
+	log.Println("glint start running...")
 	return http.ListenAndServe(addr, engine)
 }
 
