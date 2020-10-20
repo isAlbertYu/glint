@@ -22,6 +22,8 @@ type Context struct {
 	Method        string              //请求方法
 	StatusCode    int                 //状态码
 	RouteParamMap map[string]string   //通配符参数值的映射
+	handlers      []HandlerFunc       //中间件
+	index         int
 }
 
 func newContext(w http.ResponseWriter, req *http.Request) *Context {
@@ -30,6 +32,7 @@ func newContext(w http.ResponseWriter, req *http.Request) *Context {
 		Req:    req,
 		Path:   req.URL.Path,
 		Method: req.Method,
+		index:  -1,
 	}
 }
 
@@ -88,4 +91,11 @@ func (c *Context) HTML(code int, html string) {
 func (c *Context) Data(code int, data []byte) {
 	c.Status(code)
 	c.Writer.Write(data)
+}
+
+func (c *Context) Next() {
+	c.index++
+	for ;c.index<len(c.handlers);c.index++{
+
+	}
 }
