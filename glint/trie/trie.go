@@ -52,7 +52,7 @@ func (trie *Trie) Search(parts []string) *TrieNode {
 			return nil
 		}
 		//已到达待匹配的url的最后一层 且 也到达了trie树的叶子节点, 则存在匹配
-		if i == len(parts)-1 && len(child.children)==0{
+		if i == len(parts)-1 && len(child.children) == 0 {
 			return child
 		}
 
@@ -64,3 +64,57 @@ func (trie *Trie) Search(parts []string) *TrieNode {
 	}
 	return nil
 }
+
+//func (trie *Trie) Display() {
+//	arr := make([]string, 0)
+//	var str strings.Builder
+//
+//	str.WriteString("└─")
+//	str.WriteString(trie.root.curNodeVal)
+//	arr = append(arr, str.String())
+//
+//	for index, child := range trie.root.children {
+//		child.show(&str, index == len(trie.root.children)-1, 1)
+//	}
+//
+//	trie.root.show(&str)
+//	fmt.Println(str.String())
+//
+//}
+//
+//func (node *TrieNode) show(res *strings.Builder, isLastOne bool, level int) {
+//	if isLastOne {
+//		(*res).WriteString("└─")
+//		(*res).WriteString(node.curNodeVal)
+//		(*res).WriteString("\n")
+//		for i := 0; i < level; i++ {
+//			(*res).WriteString("  ")
+//		}
+//	} else {
+//		(*res).WriteString("├─")
+//		(*res).WriteString(node.curNodeVal)
+//		(*res).WriteString("\n")
+//		for i := 0; i < level; i++ {
+//			(*res).WriteString("  ")
+//		}
+//	}
+//
+//
+//	if len(node.children) > 0 && !isLastOne {
+//		for index, child := range node.children {
+//			child.show(res, index == len(node.children)-1, 1)
+//		}
+//	}
+//
+//}
+/*
+└─
+  └─lang
+    ├─go
+    │ ├─web
+    │ └─rpc
+    └─py
+      ├─nlp
+      └─cv
+
+*/
